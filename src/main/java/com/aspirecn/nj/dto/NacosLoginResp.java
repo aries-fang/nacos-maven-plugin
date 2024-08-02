@@ -2,7 +2,7 @@ package com.aspirecn.nj.dto;
 
 
 public class NacosLoginResp {
-    // 登录成功后返回的token
+
     private String accessToken;
 
     private String tokenTtl;
