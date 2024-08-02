@@ -16,6 +16,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.yaml.snakeyaml.Yaml;
 
@@ -23,7 +24,7 @@ import org.yaml.snakeyaml.Yaml;
 @Mojo(name = "nacos-config-check")
 public class NacosConfigCheckMojo extends AbstractMojo {
 
-    @Parameter(property = "jasypt.encryptor.password", defaultValue = "452d2b75f7dcbe2fd94d022a0d092e7b9e93c0e4")
+    @Parameter(property = "jasypt.encryptor.password", defaultValue = "4df98cad061444e6adb3a703876ec01b")
     private String encryptPassword;
 
     @Parameter(property = "nacos.serverUrl", required = true)
@@ -118,7 +119,12 @@ public class NacosConfigCheckMojo extends AbstractMojo {
         }
     }
 
-    // 递归方法，提取所有的key
+    /**
+     * 递归方法，提取所有的key
+     * @param map  nacos的yaml
+     * @param keys 提取的key集合
+     * @param parentKey 父key
+     */
     private static void extractKeys(Map<String, Object> map, List<String> keys, String parentKey) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String currentKey = parentKey.isEmpty() ? entry.getKey() : parentKey + "." + entry.getKey();
@@ -138,21 +144,10 @@ public class NacosConfigCheckMojo extends AbstractMojo {
      * @return 明文密码
      */
     private String decryptPassword(String encryptedPassword, String jasyptPassword) {
-        if (StringUtils.isEmpty(encryptedPassword)) {
-            encryptedPassword = "452d2b75f7dcbe2fd94d022a0d092e7b9e93c0e4";
-        }
-
-        PooledPBEStringEncryptor pbeStringEncryptor = new PooledPBEStringEncryptor();
-        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword(encryptedPassword);
-        config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
-        config.setKeyObtentionIterations("1000");
-        config.setPoolSize("1");
-        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-        config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
-        config.setStringOutputType("base64");
-        pbeStringEncryptor.setConfig(config);
-        return pbeStringEncryptor.decrypt(jasyptPassword);
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        encryptor.setPassword(encryptedPassword);
+        encryptor.setAlgorithm("PBEWithMD5AndDES");
+        return encryptor.decrypt(jasyptPassword);
     }
 }
 
