@@ -17,8 +17,8 @@
 <build>
     <plugins>
         <plugin>
-            <groupId>cn.aries.fang.maven.plugin</groupId>
-            <artifactId>nacos-config-check-maven-plugin</artifactId>
+            <groupId>io.github.aries-fang</groupId>
+            <artifactId>nacos-maven-plugin</artifactId>
             <version>1.0.0</version>
             <executions>
                 <execution>
@@ -61,7 +61,7 @@
 在你的 Maven 项目中运行以下命令来执行插件：
 
 ```bash
-mvn com.aspirecn.nj:nacos-config-check-maven-plugin:nacos-config-check
+mvn io.github.aries-fang:nacos-maven-plugin:nacos-config-check
 ```
 
 这将触发插件，将 `configPath` 指定的本地配置文件与 Nacos 中存储的远程配置进行比较。
@@ -70,7 +70,7 @@ mvn com.aspirecn.nj:nacos-config-check-maven-plugin:nacos-config-check
 
 1. 在你的 Maven 项目中运行以下命令来执行插件：
 ```bash
-mvn com.aspirecn.nj:nacos-config-check-maven-plugin:jasypt-encryptor
+mvn io.github.aries-fang:nacos-maven-plugin:jasypt-encryptor
 ```
 用于将明文密码加密，默认加密秘钥为4df98cad061444e6adb3a703876ec01b，你可以更改它。
 
