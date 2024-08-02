@@ -3,9 +3,6 @@ package com.aspirecn.nj.utils;
 
 /**
  * Description: httpClient工具响应结果
- *
- * @author housy
- * @date Created on 2021年6月02日
  */
 public class HttpClientResult {
 
