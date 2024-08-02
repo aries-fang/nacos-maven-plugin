@@ -4,7 +4,7 @@
 
 ## 功能特点
 
-- **流水线门禁**：结合jenkins流水线使用，可以达到Nacos配置与本地配置不一致时，自动失败的效果。有效放置开发人员忘记提交配置导致线上服务不可用的问题。
+- **流水线门禁**：结合jenkins流水线使用，可以达到Nacos配置与本地配置不一致时，自动失败的效果。有效防止开发人员忘记提交配置导致线上服务不可用的问题。
 - **本地与远程配置比较**：检查本地 YAML 配置文件与 Nacos 中存储的配置是否一致。
 - **支持加解密**：使用 Jasypt 处理加密值。
 - **详细日志记录**：在比较过程中记录所有发现的不一致之处。
@@ -17,13 +17,14 @@
 <build>
     <plugins>
         <plugin>
-            <groupId>com.aspirecn.nj</groupId>
+            <groupId>cn.aries.fang.maven.plugin</groupId>
             <artifactId>nacos-config-check-maven-plugin</artifactId>
             <version>1.0.0</version>
             <executions>
                 <execution>
                     <goals>
                         <goal>nacos-config-check</goal>
+                        <goal>jasypt-encryptor</goal>
                     </goals>
                 </execution>
             </executions>
@@ -65,11 +66,16 @@ mvn com.aspirecn.nj:nacos-config-check-maven-plugin:nacos-config-check
 
 这将触发插件，将 `configPath` 指定的本地配置文件与 Nacos 中存储的远程配置进行比较。
 
+## 明文密码加密
+
+1. 在你的 Maven 项目中运行以下命令来执行插件：
 ```bash
 mvn com.aspirecn.nj:nacos-config-check-maven-plugin:jasypt-encryptor
 ```
 用于将明文密码加密，默认加密秘钥为4df98cad061444e6adb3a703876ec01b，你可以更改它。
-或者使用java代码自主生成对应的秘钥
+
+
+2. 使用java代码自主生成对应的秘钥
 
 ```java
     import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -107,7 +113,3 @@ mvn com.aspirecn.nj:nacos-config-check-maven-plugin:jasypt-encryptor
 欢迎贡献代码！请 fork 本仓库并提交你的改进内容的 pull request。
 
 对于重大变更，请先开启一个 issue 以讨论你想要做出的更改。
-
----
-
-这个 `README.md` 提供了如何在 Maven 项目中安装、配置和使用 `NacosConfigCheckMojo` 插件的清晰指南。你可以根据具体需求或组织标准进一步定制它。
