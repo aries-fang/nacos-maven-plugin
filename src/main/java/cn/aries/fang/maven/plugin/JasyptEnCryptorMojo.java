@@ -1,4 +1,4 @@
-package com.aspirecn.nj;
+package cn.aries.fang.maven.plugin;
 
 import org.apache.maven.plugin.*;
 import org.apache.maven.plugins.annotations.Mojo;

@@ -1,4 +1,4 @@
-package com.aspirecn.nj.utils;
+package cn.aries.fang.maven.plugin.utils;
 
 import java.io.*;
 import java.net.URI;

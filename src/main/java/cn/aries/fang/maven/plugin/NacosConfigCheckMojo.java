@@ -1,11 +1,12 @@
-package com.aspirecn.nj;
+package cn.aries.fang.maven.plugin;
 
 
+import cn.aries.fang.maven.plugin.utils.HttpClientResult;
+import cn.aries.fang.maven.plugin.utils.HttpClientUtils;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONUtil;
-import com.aspirecn.nj.dto.NacosLoginResp;
-import com.aspirecn.nj.utils.*;
+import cn.aries.fang.maven.plugin.dto.NacosLoginResp;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,10 +15,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import org.codehaus.plexus.util.StringUtils;
-import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.yaml.snakeyaml.Yaml;
 
 

@@ -1,4 +1,4 @@
-package com.aspirecn.nj.dto;
+package cn.aries.fang.maven.plugin.dto;
 
 
 public class NacosLoginResp {
