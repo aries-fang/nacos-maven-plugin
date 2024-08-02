@@ -21,7 +21,7 @@ public class JasyptEnCryptorMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException {
         String encryptedPassword = encryptPassword(encryptPassword, password);
-        getLog().error("=========encryptedPassword:" + encryptedPassword + "=========");
+        getLog().info("=========encryptedPassword:\n" + encryptedPassword + "=========");
     }
 
     /**
@@ -35,10 +35,6 @@ public class JasyptEnCryptorMojo extends AbstractMojo {
         encryptor.setPassword(encryptedPassword);
         encryptor.setAlgorithm("PBEWithMD5AndDES");
         return encryptor.encrypt(password);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(encryptPassword("4df98cad061444e6adb3a703876ec01b", "123456"));
     }
 }
 
