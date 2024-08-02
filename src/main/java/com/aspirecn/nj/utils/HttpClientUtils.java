@@ -30,9 +30,6 @@ import org.slf4j.*;
 
 /**
  * Description: httpClient工具类
- *
- * @author housy
- * @date Created on 2021年6月02日
  */
 public class HttpClientUtils {
     private static final Logger LOG = LoggerFactory.getLogger(HttpClientUtils.class);
