@@ -2,17 +2,49 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>cn.aries.fang.maven.plugin</groupId>
+  <groupId>io.github.aries-fang</groupId>
   <artifactId>nacos-maven-plugin</artifactId>
   <version>1.0.0</version>
   <packaging>maven-plugin</packaging>
 
-  <name>nacos-maven-plugin Maven Plugin</name>
+  <name>nacos-maven-plugin</name>
+  <description>Nacos 配置检查 Maven 插件</description>
+  <url>https://github.com/aries-fang/nacos-maven-plugin</url>
 
-  <url>http://maven.apache.org</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>aries.fang</id>
+      <name>aries.fang</name>
+      <email>aries.fang.nj@gmail.com</email>
+      <roles>
+        <role>Project Manager</role>
+        <role>Architect</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>https://github.com/aries-fang/nacos-maven-plugin.git</connection>
+    <developerConnection>
+      scm:git:ssh://git@github.com:aries-fang/nacos-maven-plugin.git
+    </developerConnection>
+    <url>https://github.com/aries-fang/nacos-maven-plugin</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
   </properties>
 
   <dependencies>
@@ -68,6 +100,37 @@
 
   <build>
     <plugins>
+
+
+      <!--   source源码插件 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!--   javadoc插件 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
@@ -93,21 +156,46 @@
       </plugin>
     </plugins>
   </build>
+
   <profiles>
     <profile>
-      <id>jdk-1.8</id>
-      <activation>
-        <jdk>1.8</jdk>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-      </properties>
+      <id>release</id>
+      <build>
+        <plugins>
+          <!--   central发布插件    -->
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.4.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>aries-fang</publishingServerId>
+              <tokenAuth>true</tokenAuth>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.4</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <!-- Prevent `gpg` from using pinentry programs -->
+              <gpgArguments>
+                <arg>--pinentry-mode</arg>
+                <arg>loopback</arg>
+              </gpgArguments>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
