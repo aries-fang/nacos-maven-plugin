@@ -52,6 +52,7 @@ public class NacosConfigCheckMojo extends AbstractMojo {
         Yaml yaml = new Yaml();
         Map<String, Object> localYaml = null;
         List<String> localYamlKeys = new ArrayList<>();
+        getLog().info("=========加载本地文件："+configPath+"=========");
         try (InputStream inputStream = FileUtil.getInputStream(new File(configPath))) {
             localYaml = yaml.load(inputStream);
             extractKeys(localYaml, localYamlKeys, "");
@@ -88,6 +89,7 @@ public class NacosConfigCheckMojo extends AbstractMojo {
                 dataId, group, namespace, accessToken);
         Map<String, Object> nacosYaml = null;
         List<String> nacosYamlKeys = new ArrayList<>();
+        getLog().info("=========加载远程文件：namespace：" + namespace + " dataId：" + dataId + "=========");
         try {
             // 发送 GET 请求并获取响应
             HttpClientResult response = HttpClientUtils.doGet(url);
@@ -105,8 +107,7 @@ public class NacosConfigCheckMojo extends AbstractMojo {
             throw new MojoExecutionException("下载nacos文件失败，dataId:" + dataId, e);
         }
 
-        Map<String, Object> finalLocalYaml = localYaml;
-        List<String> errorKeys = nacosYamlKeys.stream().filter(key -> !finalLocalYaml.containsKey(key))
+        List<String> errorKeys = nacosYamlKeys.stream().filter(key -> !localYamlKeys.contains(key))
                 .collect(Collectors.toList());
         if (CollectionUtil.isEmpty(errorKeys)) {
             getLog().info("=========门禁检查通过=========");
