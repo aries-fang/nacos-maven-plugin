@@ -107,6 +107,8 @@ public class NacosConfigCheckMojo extends AbstractMojo {
                 getLog().error("=========门禁检查不通过=========");
                 throw new MojoExecutionException("下载nacos文件失败，dataId:" + config.getDataId() + "，HTTP Status: " + response.getCode() + "，content:" + response.getContent());
             }
+        } catch (MojoExecutionException e) {
+            throw e;
         } catch (Exception e) {
             getLog().error("=========门禁检查不通过=========");
             throw new MojoExecutionException("下载nacos文件失败，dataId:" + config.getDataId(), e);
@@ -155,6 +157,9 @@ public class NacosConfigCheckMojo extends AbstractMojo {
      * @param parentKey 父key
      */
     private void extractKeys(Map<String, Object> map, List<String> keys, String parentKey) {
+        if (CollectionUtil.isEmpty(map)) {
+            return;
+        }
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String currentKey = parentKey.isEmpty() ? entry.getKey() : parentKey + "." + entry.getKey();
             if (entry.getValue() instanceof Map) {

@@ -19,7 +19,7 @@
         <plugin>
             <groupId>io.github.aries-fang</groupId>
             <artifactId>nacos-maven-plugin</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
             <executions>
                 <execution>
                     <goals>
@@ -34,9 +34,18 @@
                 <username>nacos-username</username>
                 <password>nacos-password</password>
                 <namespace>your-namespace</namespace>
-                <dataId>your-dataId</dataId>
-                <group>your-group</group>
-                <configPath>path/to/your/local/config.yaml</configPath>
+                <configs>
+                    <config>
+                        <dataId>your-dataId</dataId>
+                        <group>your-group</group>
+                        <configPath>path/to/your/local/config.yaml</configPath>
+                    </config>
+                    <config>
+                        <dataId>your-dataId2</dataId>
+                        <group>your-group</group>
+                        <configPath>path/to/your/local/config2.yaml</configPath>
+                    </config>
+                </configs>
             </configuration>
         </plugin>
     </plugins>
@@ -52,6 +61,9 @@
 - `username`：**（必填）** Nacos 登录用户名。
 - `password`：**（必填）** Nacos 登录密码。
 - `namespace`：（可选）需要检查的 Nacos 命名空间。
+- `configs`：**（必填）** Nacos 中配置的 Data ID和本地文件的映射列表。
+
+# configs配置说明
 - `dataId`：**（必填）** Nacos 中配置的 Data ID。
 - `group`：（可选）Nacos 的分组名称，默认值为 `DEFAULT_GROUP`。
 - `configPath`：**（必填）** 本地 YAML 配置文件的路径。
